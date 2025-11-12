@@ -15,6 +15,7 @@ console.log('DB CONFIG:', {
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
+      url: process.env.DATABASE_URL,
       host: process.env.PGHOST,
       port: Number(process.env.PGPORT) || 5432,
       username: process.env.PGUSER,
