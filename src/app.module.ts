@@ -1,43 +1,33 @@
-import { Module, Inject } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TemplatesModule } from './templates/templates.module';
 import { AuthModule } from './auth/auth.module';
 
+console.log('DB CONFIG:', {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // Load environment variables
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
-        host:
-          configService.get<string>('PGHOST') ||
-          configService.get<string>('DB_HOST') ||
-          'localhost',
-        port: parseInt(
-          configService.get<string>('PGPORT') ||
-            configService.get<string>('DB_PORT') ||
-            '5432',
-          10,
-        ),
-        username:
-          configService.get<string>('PGUSER') ||
-          configService.get<string>('DB_USERNAME') ||
-          'postgres',
-        password:
-          configService.get<string>('PGPASSWORD') ||
-          configService.get<string>('DB_PASSWORD') ||
-          'postgres',
-        database:
-          configService.get<string>('PGDATABASE') ||
-          configService.get<string>('DB_NAME') ||
-          'template_service',
-        autoLoadEntities: true,
-        synchronize: true, // Consider setting to false in production and using migrations
-      }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.PGHOST,
+      port: Number(process.env.PGPORT) || 5432,
+      username: process.env.PGUSER,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE,
+      autoLoadEntities: true,
+      synchronize: process.env.NODE_ENV !== 'production',
+      ssl:
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : false,
     }),
+
     TemplatesModule,
     AuthModule,
   ],
