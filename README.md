@@ -1,98 +1,332 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧠 TemplateFlow API (NestJS + TypeORM + JWT Authentication)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+TemplateFlow is a full-featured **template management API** built with **NestJS**, **PostgreSQL**, and **TypeORM**.  
+It allows you to create, preview, and manage reusable text templates (e.g., email bodies, web content, etc.) with **dynamic variables**, **category validation**, **JWT-based authentication**, and **pagination** support.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- 🔐 **JWT Authentication** (`/auth/register`, `/auth/login`)
+- 🧩 **Template Management** (CRUD endpoints)
+- 🪶 **Template Preview** with dynamic variable rendering (`{{variable | default}}`)
+- 🧭 **Category Validation** (supports only valid predefined template types)
+- 🔍 **Pagination** for fetching large datasets efficiently
+- 🧱 **TypeORM Integration** (PostgreSQL)
+- ⚙️ **Global Validation Pipes** for clean request validation
+- 🛠️ Built using **NestJS** (Modular Architecture)
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## 🧰 Tech Stack
 
-## Compile and run the project
+| Layer | Technology |
+|-------|-------------|
+| Backend Framework | [NestJS](https://nestjs.com/) |
+| Database ORM | [TypeORM](https://typeorm.io/) |
+| Database | PostgreSQL |
+| Authentication | JWT (JSON Web Token) |
+| Language | TypeScript |
 
-```bash
-# development
-$ npm run start
+---
 
-# watch mode
-$ npm run start:dev
+## 📦 Getting Started (Local Setup)
 
-# production mode
-$ npm run start:prod
-```
+Follow these steps to run the project on your local machine.
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+### 🧾 1️⃣ Prerequisites
 
-# e2e tests
-$ npm run test:e2e
+Ensure you have the following installed:
 
-# test coverage
-$ npm run test:cov
-```
+- **Node.js** v18 or later → [Download](https://nodejs.org/)
+- **npm** or **yarn**
+- **PostgreSQL** database (local or cloud-based)
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 🧬 2️⃣ Clone the Repository
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+git https://github.com/MhideTech/Template-Service-Microservice
+cd Template-Service-Microservice
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+### ⚙️ 3️⃣ Install Dependencies
+```bash
+npm install
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 🗃️ 4️⃣ Set Up PostgreSQL Database
+You can create a local or remote PostgreSQL database.
 
-## Support
+Example using psql:
+```sql
+CREATE DATABASE template_service_db;
+CREATE USER template_user WITH PASSWORD 'template_password';
+GRANT ALL PRIVILEGES ON DATABASE template_service_db TO template_user;
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+### 🔑 5️⃣ Create .env File
+In the root folder of the project, create a .env file:
+```bash
+touch .env
+```
+Then add the following:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+# PostgreSQL Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=template_user
+DB_PASSWORD=template_password
+DB_NAME=template_service_db
 
-## License
+# JWT Secret Key
+JWT_SECRET=your_jwt_secret_key_here
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Server Port
+PORT=3000
+```
+
+---
+### 🏗️ 6️⃣ Run the Application
+```bash
+npm run start:dev
+```
+
+Your server should now be running at:
+
+👉 http://localhost:3000
+
+---
+## 🧠 API Endpoints
+
+#### Below are all the major endpoints you can test via Postman or cURL.
+---
+
+### 🔐 Authentication Routes
+### 🟢 Register
+
+**POST** `/auth/register`
+
+**Body (JSON):**
+```json
+{
+  "username": "olamide",
+  "password": "mypassword"
+}
+```
+✅ Response:
+```json
+{
+  "id": 1,
+  "username": "olamide"
+}
+```
+---
+### 🟢 Login
+
+**POST** `/auth/login`
+
+**Body (JSON):**
+```json
+{
+  "username": "olamide",
+  "password": "mypassword"
+}
+```
+✅ Response:
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR..."
+}
+```
+You’ll use this `access_token` for all other secured endpoints.
+
+---
+### 📄 Template Routes
+
+All template routes are protected — you must include your JWT token in the headers.
+
+**Required Header:**
+```makefile
+Authorization: Bearer <your_access_token>
+```
+---
+### 🟢 Create Template
+
+**POST** `/templates`
+
+**Body (JSON):**
+```json
+{
+  "title": "Welcome Template",
+  "content": "Hello {{name | Guest}}, welcome to {{platform | our service}}!",
+  "category": "email"
+}
+```
+✅ Response:
+```json
+{
+  "id": 1,
+  "title": "Welcome Template",
+  "content": "Hello {{name | Guest}}, welcome to {{platform | our service}}!",
+  "category": "Email"
+}
+```
+---
+### 🟢 Get All Templates (with Pagination)
+
+**GET** `/templates?page=1&limit=5`
+
+✅ Response:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Welcome Template",
+      "category": "Email"
+    }
+  ],
+  "total": 1,
+  "page": 1,
+  "limit": 5
+}
+```
+---
+### 🟢 Get Template by ID
+
+**GET** `/templates/1`
+
+✅ Response:
+```json
+{
+  "id": 1,
+  "title": "Welcome Template",
+  "content": "Hello {{name | Guest}}, welcome to {{platform | our service}}!",
+  "category": "Email"
+}
+```
+---
+### 🟢 Preview a Template
+
+**POST** `/templates/1/preview`
+
+**Body (JSON):**
+```json
+{
+  "variables": {
+    "name": "Olamide",
+    "platform": "TemplateFlow"
+  }
+}
+```
+
+✅ Response:
+```json
+{
+  "renderedContent": "Hello Olamide, welcome to TemplateFlow!",
+  "usedVariables": ["name", "platform"],
+  "missingVariables": [],
+  "availableVariables": ["name", "platform"]
+}
+```
+If variables are missing:
+```json
+{
+  "variables": {}
+}
+```
+✅ Response:
+```json
+{
+  "renderedContent": "Hello Guest, welcome to our service!",
+  "usedVariables": [],
+  "missingVariables": ["name", "platform"],
+  "availableVariables": ["name", "platform"]
+}
+```
+---
+### 🟢 Update Template
+
+**PUT** `/templates/1`
+
+**Body (JSON):**
+```json
+{
+  "content": "Hi {{name | Guest}}, welcome back to {{platform | TemplateFlow}}!"
+}
+
+```
+
+✅ Response:
+```json
+{
+  "id": 1,
+  "title": "Welcome Template",
+  "content": "Hi {{name | Guest}}, welcome back to {{platform | TemplateFlow}}!",
+  "category": "Email"
+}
+```
+---
+### 🟢 Delete Template
+
+**DELETE** `/templates/1`
+
+✅ Response:
+```json
+{
+  "message": "Template deleted successfully."
+}
+```
+---
+### ⚠️ Error Responses
+| Error Type         | Example Message                       | Status |
+| ------------------ | ------------------------------------- | ------ |
+| Invalid category   | `category must be a valid enum value` | 400    |
+| Template not found | `Template with ID 99 not found.`      | 400    |
+| Missing JWT        | `Unauthorized`                        | 401    |
+| Invalid login      | `Invalid credentials`                 | 401    |
+
+---
+### 📂 Project Structure
+```cpp
+src/
+│
+├── auth/
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── user.entity.ts
+│
+├── templates/
+│   ├── dto/
+│   ├── entities/
+│   ├── templates.controller.ts
+│   ├── templates.service.ts
+│   ├── template-categories.enum.ts
+│
+├── app.module.ts
+├── main.ts
+```
+---
+### 🧪 Testing with Postman
+
+1. Open Postman
+2. Register a new user via /auth/register
+3. Login and copy the access_token
+4. Add the header Authorization: Bearer <token> to all template endpoints
+5. Try each endpoint in order:
+* Create
+* Get all (paginated)
+* Preview
+* Update
+* Delete

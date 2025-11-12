@@ -1,16 +1,19 @@
 import 'reflect-metadata';
+import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { Template } from './templates/entities/template.entity';
+dotenv.config();
 
 export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432', 10),
-  username: process.env.DB_USER || 'template_user',
-  password: process.env.DB_PASSWORD || 'template_password',
-  database: process.env.DB_NAME || 'template_service_db',
+  type: 'postgres', // This remains the same
+  host: process.env.PGHOST || process.env.DB_HOST,
+  port: Number(process.env.PGPORT || process.env.DB_PORT),
+  username: process.env.PGUSER || process.env.DB_USERNAME,
+  password: process.env.PGPASSWORD || process.env.DB_PASSWORD,
+  database: process.env.PGDATABASE || process.env.DB_NAME,
+  synchronize: true, // Consider setting to false in production and using migrations
+  logging: false,
   entities: [Template],
-  migrations: ['src/migrations/*.ts'],
-  synchronize: false, // ✅ must be false in production
-  logging: true,
+  migrations: [],
+  subscribers: [],
 });
