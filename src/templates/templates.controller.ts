@@ -8,39 +8,42 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TemplatesService } from './templates.service';
-import { Template } from './entities/template.entity';
 
 @Controller('templates')
 export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
   @Get()
-  async findAll() {
-    const data = await this.templatesService.findAll();
-    return { success: true, data, message: 'Templates fetched successfully' };
+  findAll() {
+    return this.templatesService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    const data = await this.templatesService.findOne(id);
-    return { success: true, data, message: 'Template fetched successfully' };
+  findOne(@Param('id') id: number) {
+    return this.templatesService.findOne(id);
   }
 
   @Post()
-  async create(@Body() body: Partial<Template>) {
-    const data = await this.templatesService.create(body);
-    return { success: true, data, message: 'Template created successfully' };
+  create(@Body() data: any) {
+    return this.templatesService.create(data);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() body: Partial<Template>) {
-    const data = await this.templatesService.update(id, body);
-    return { success: true, data, message: 'Template updated successfully' };
+  update(@Param('id') id: number, @Body() data: any) {
+    return this.templatesService.update(id, data);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    await this.templatesService.remove(id);
-    return { success: true, message: 'Template deleted successfully' };
+  remove(@Param('id') id: number) {
+    return this.templatesService.remove(id);
+  }
+
+  // ✅ NEW: Render endpoint
+  @Post(':id/render')
+  renderTemplate(
+    @Param('id') id: number,
+    @Body() variables: Record<string, string>,
+  ) {
+    return this.templatesService.renderTemplate(id, variables);
   }
 }
