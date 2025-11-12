@@ -59,6 +59,44 @@ export class TemplatesService {
     return template;
   }
 
+  async renderTemplate(
+    id: number,
+    variables: Record<string, any>,
+  ): Promise<string> {
+    const template = await this.templatesRepository.findOneBy({ id });
+    if (!template) {
+      throw new BadRequestException(`Template with id ${id} not found`);
+    }
+
+    let rendered = template.content;
+
+    // Match {{variable}} or {{variable | default}}
+    const regex = /{{\s*([\w.]+)(?:\s*\|\s*([^}]+))?\s*}}/g;
+
+    rendered = rendered.replace(
+      regex,
+      (_, key: string, defaultValue?: string) => {
+        // Trim spaces just in case, and ensure type safety
+        key = key.trim();
+        const value: unknown = variables[key]; // Explicitly type 'value' as unknown
+
+        if (value !== undefined && value !== null) {
+          return String(value);
+        }
+
+        // If variable missing but default provided
+        if (defaultValue) {
+          return defaultValue.trim();
+        }
+
+        // If variable missing and no default → leave blank (graceful)
+        return '';
+      },
+    );
+
+    return rendered;
+  }
+
   async update(id: number, data: Partial<Template>): Promise<Template> {
     await this.templatesRepository.update(id, data);
     const updatedTemplate = await this.templatesRepository.findOneBy({ id });

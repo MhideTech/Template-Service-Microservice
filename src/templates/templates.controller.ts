@@ -8,6 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TemplatesService } from './templates.service';
+import { RenderTemplateDto } from './dto/render-template.dto';
 
 @Controller('templates')
 export class TemplatesController {
@@ -36,6 +37,15 @@ export class TemplatesController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.templatesService.remove(id);
+  }
+
+  @Post(':id/preview')
+  async preview(@Param('id') id: number, @Body() data: RenderTemplateDto) {
+    const renderedContent = await this.templatesService.renderTemplate(
+      id,
+      data.variables,
+    );
+    return { renderedContent };
   }
 
   // ✅ NEW: Render endpoint
