@@ -4,6 +4,10 @@ import { DataSource } from 'typeorm';
 import { Template } from './templates/entities/template.entity';
 dotenv.config();
 
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
+
 export const AppDataSource = new DataSource({
   type: 'postgres', // This remains the same
   host: process.env.PGHOST || process.env.DB_HOST,
