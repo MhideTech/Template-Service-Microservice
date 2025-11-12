@@ -1,59 +1,74 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Template } from './entities/template.entity';
+import { CreateTemplateDto } from './dto/create-template.dto';
+import { TemplateCategory } from './template-categories.enum';
 
 @Injectable()
 export class TemplatesService {
   constructor(
     @InjectRepository(Template)
-    private readonly templateRepository: Repository<Template>,
+    private templatesRepository: Repository<Template>,
   ) {}
 
-  async create(data: Partial<Template>): Promise<Template> {
-    const template = this.templateRepository.create(data);
-    return await this.templateRepository.save(template);
+  async create(createTemplateDto: CreateTemplateDto): Promise<Template> {
+    const { title, content, category } = createTemplateDto;
+
+    // ✅ Case-insensitive enum validation & normalization
+    const normalizedCategory = this.normalizeCategory(category);
+
+    // ✅ 100% safety fallback: throw error if invalid
+    if (!Object.values(TemplateCategory).includes(normalizedCategory)) {
+      throw new BadRequestException(
+        `Invalid category '${category}'. Must be one of: ${Object.values(TemplateCategory).join(', ')}`,
+      );
+    }
+
+    const template = this.templatesRepository.create({
+      title,
+      content,
+      category: normalizedCategory,
+    });
+
+    return this.templatesRepository.save(template);
+  }
+
+  // 🔹 Helper function to normalize category case-insensitively
+  private normalizeCategory(category: string): TemplateCategory {
+    if (!category) return TemplateCategory.OTHER;
+
+    // Find a match ignoring case
+    const match = Object.values(TemplateCategory).find(
+      (value: string) => value.toLowerCase() === category.toLowerCase(),
+    );
+
+    // If found, return the properly-cased enum value
+    return match || (category as TemplateCategory);
   }
 
   async findAll(): Promise<Template[]> {
-    return await this.templateRepository.find();
+    return this.templatesRepository.find();
   }
 
   async findOne(id: number): Promise<Template> {
-    const template = await this.templateRepository.findOne({ where: { id } });
-    if (!template) throw new NotFoundException('Template not found');
+    const template = await this.templatesRepository.findOneBy({ id });
+    if (!template) {
+      throw new BadRequestException(`Template with ID ${id} not found.`);
+    }
     return template;
   }
 
   async update(id: number, data: Partial<Template>): Promise<Template> {
-    await this.templateRepository.update(id, data);
-    return this.findOne(id);
+    await this.templatesRepository.update(id, data);
+    const updatedTemplate = await this.templatesRepository.findOneBy({ id });
+    if (!updatedTemplate) {
+      throw new BadRequestException(`Template with ID ${id} not found.`);
+    }
+    return updatedTemplate;
   }
 
   async remove(id: number): Promise<void> {
-    await this.templateRepository.delete(id);
-  }
-
-  // ✅ NEW: Render method
-  async renderTemplate(id: number, variables: Record<string, string>) {
-    const template = await this.findOne(id);
-
-    const content = template.content;
-    if (!content?.body || !content?.subject)
-      throw new Error('Invalid template format');
-
-    let renderedBody = content.body;
-    let renderedSubject = content.subject;
-
-    for (const [key, value] of Object.entries(variables)) {
-      const regex = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
-      renderedBody = renderedBody.replace(regex, value);
-      renderedSubject = renderedSubject.replace(regex, value);
-    }
-
-    return {
-      subject: renderedSubject,
-      body: renderedBody,
-    };
+    await this.templatesRepository.delete(id);
   }
 }

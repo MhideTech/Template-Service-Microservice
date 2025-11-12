@@ -1,28 +1,25 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { TemplateCategory } from '../template-categories.enum';
 
-@Entity('templates')
+@Entity()
 export class Template {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 150 })
-  name: string;
+  @Column()
+  title: string;
 
-  @Column({ type: 'text', nullable: true })
-  description: string;
+  @Column('text')
+  content: string;
 
-  @Column({ type: 'jsonb', nullable: true })
-  content: any;
+  // Change category to be of enum type
+  @Column({
+    type: 'enum',
+    enum: TemplateCategory,
+    default: TemplateCategory.OTHER,
+  })
+  category: TemplateCategory;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 }

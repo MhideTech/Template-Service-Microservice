@@ -39,11 +39,11 @@ export class TemplatesController {
   }
 
   // ✅ NEW: Render endpoint
-  @Post(':id/render')
-  renderTemplate(
-    @Param('id') id: number,
-    @Body() variables: Record<string, string>,
-  ) {
-    return this.templatesService.renderTemplate(id, variables);
-  }
+  // @Post(':id/render')
+  // renderTemplate(
+  //   @Param('id') id: number,
+  //   @Body() variables: Record<string, string>,
+  // ) {
+  //   return this.templatesService.renderTemplate(id, variables);
+  // }
 }
