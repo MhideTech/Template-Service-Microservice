@@ -85,8 +85,19 @@ export class TemplatesService {
   }
 
   // 🔹 Find all templates
-  async findAll(): Promise<Template[]> {
-    return this.templatesRepository.find();
+  async findAll(page = 1, limit = 10) {
+    const [data, total] = await this.templatesRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { id: 'DESC' },
+    });
+
+    return {
+      data,
+      total,
+      page,
+      lastPage: Math.ceil(total / limit),
+    };
   }
 
   // 🔹 Find one template by ID
