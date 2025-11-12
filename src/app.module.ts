@@ -12,7 +12,7 @@ import { TemplatesModule } from './templates/templates.module';
       password: 'template_password',
       database: 'template_service_db',
       autoLoadEntities: true,
-      synchronize: false, // very important
+      synchronize: true, // very important
     }),
     TemplatesModule,
   ],
